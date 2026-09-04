@@ -1,0 +1,90 @@
+/* Variables de diseño.
+   La paleta sale de la propia foto del atardecer sobre el río: azul noche,
+   lavanda y el dorado de las nubes. Es la misma de la postal, para que la
+   web y lo que circula por WhatsApp se reconozcan como una sola cosa.
+
+   Los colores se declaran tres veces a propósito (patrón de cv-gibson):
+     1. :root                       → el tema oscuro, que aquí es el propio
+     2. @media prefers-color-scheme → variante clara si el sistema la pide
+     3. :root[data-theme="..."]     → lo que fuerce el conmutador
+   Sin el paso 3 el botón no podría contradecir al sistema. */
+
+:root {
+  /* --- Tipografía --- */
+  --font-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-sans: "Avenir Next", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    system-ui, sans-serif;
+
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.3rem);
+  --text-xl: clamp(1.35rem, 1.1rem + 1.1vw, 1.75rem);
+  --text-2xl: clamp(1.9rem, 1.4rem + 2.2vw, 2.8rem);
+  --text-3xl: clamp(2.4rem, 1.5rem + 4.4vw, 4.5rem);
+
+  /* --- Espaciado (escala de 4px) --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+
+  --radius: 10px;
+  --radius-lg: 20px;
+  --measure: 62ch;        /* ancho máximo de lectura cómoda */
+  --ancho: 1120px;        /* ancho del contenedor */
+
+  /* --- Color: el tema propio, nocturno --- */
+  --bg: #101630;
+  --bg-soft: #161e3d;
+  --surface: rgb(255 255 255 / 6%);
+  --border: rgb(255 255 255 / 16%);
+  --border-fuerte: rgb(255 255 255 / 34%);
+
+  --text: #f4f6fb;          /* 15.2:1 sobre --bg */
+  --text-muted: #b3bcd6;    /*  7.9:1 sobre --bg */
+  --acento: #f2d9a0;        /* 11.4:1 sobre --bg — el dorado de las nubes */
+  --acento-hueco: rgb(242 217 160 / 14%);
+  --link: #9fc2ff;          /*  8.1:1 sobre --bg */
+
+  --sombra: 0 1px 2px rgb(4 8 22 / 30%), 0 18px 48px rgb(4 8 22 / 45%);
+}
+
+/* Variante clara: papel al amanecer, no blanco puro. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f7f6f3;
+    --bg-soft: #efedea;
+    --surface: #ffffff;
+    --border: #dcd8d1;
+    --border-fuerte: #a89f92;
+
+    --text: #1b2136;        /* 14.8:1 sobre --bg */
+    --text-muted: #55596b;  /*  6.6:1 sobre --bg */
+    --acento: #8a6a1f;      /*  5.1:1 sobre --bg — el dorado, oscurecido
+                               hasta cumplir AA sobre fondo claro */
+    --acento-hueco: rgb(138 106 31 / 10%);
+    --link: #1c4fa8;        /*  6.9:1 sobre --bg */
+
+    --sombra: 0 1px 2px rgb(27 33 54 / 6%), 0 14px 40px rgb(27 33 54 / 10%);
+  }
+}
+
+/* Lo mismo, pero forzado por el conmutador. */
+:root[data-theme="light"] {
+  --bg: #f7f6f3;
+  --bg-soft: #efedea;
+  --surface: #ffffff;
+  --border: #dcd8d1;
+  --border-fuerte: #a89f92;
+  --text: #1b2136;
+  --text-muted: #55596b;
+  --acento: #8a6a1f;
+  --acento-hueco: rgb(138 106 31 / 10%);
+  --link: #1c4fa8;
+  --sombra: 0 1px 2px rgb(27 33 54 / 6%), 0 14px 40px rgb(27 33 54 / 10%);
+}

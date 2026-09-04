@@ -1,0 +1,239 @@
+/* Estilos de la página. Los valores de color, espacio y tamaño salen todos
+   de tokens.css: aquí no debería aparecer ni un color escrito a mano. */
+
+*, *::before, *::after { box-sizing: border-box; }
+body, h1, h2, h3, p, ul, ol, li, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; border-radius: 4px; }
+
+/* Primer tabulador de la página: para quien navega con teclado. */
+.saltar {
+  position: absolute; left: var(--space-4); top: calc(var(--space-4) * -4);
+  background: var(--bg-soft); color: var(--text); z-index: 10;
+  padding: var(--space-3) var(--space-4); border-radius: var(--radius);
+  transition: top .18s;
+}
+.saltar:focus { top: var(--space-4); }
+
+.contenedor { width: min(100% - var(--space-6) * 2); max-width: var(--ancho); margin-inline: auto; }
+.contenedor.estrecho { max-width: 760px; }
+.prosa { max-width: var(--measure); color: var(--text-muted); font-size: var(--text-lg); }
+.prosa p + p { margin-top: var(--space-4); }
+.prosa strong { color: var(--text); font-weight: 600; }
+
+.rotulo {
+  font-size: var(--text-sm); letter-spacing: .28em; text-transform: uppercase;
+  color: var(--acento); margin-bottom: var(--space-3);
+}
+
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; line-height: 1.08; }
+h1 { font-size: var(--text-3xl); letter-spacing: -.02em; }
+h2 { font-size: var(--text-2xl); letter-spacing: -.01em; }
+h3 { font-size: var(--text-xl); }
+
+/* --- Barra superior ------------------------------------------------------
+   Transparente sobre la portada y con fondo difuminado al bajar; el
+   position: sticky basta, no hace falta JavaScript para eso. */
+.barra {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; gap: var(--space-5);
+  padding: var(--space-4) var(--space-6);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.marca { font-family: var(--font-serif); font-size: var(--text-lg); color: var(--text); text-decoration: none; }
+.barra nav { margin-left: auto; display: flex; gap: var(--space-5); }
+.barra nav a { color: var(--text-muted); text-decoration: none; font-size: var(--text-sm); }
+.barra nav a:hover { color: var(--text); }
+.tema {
+  background: none; border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 999px; padding: var(--space-2) var(--space-4);
+  font: inherit; font-size: var(--text-sm); cursor: pointer;
+}
+.tema:hover { border-color: var(--border-fuerte); color: var(--text); }
+
+@media (max-width: 640px) {
+  .barra { padding: var(--space-3) var(--space-4); gap: var(--space-3); }
+  .marca { font-size: var(--text-base); }
+  .barra nav { gap: var(--space-4); }
+  .barra nav a { font-size: 0.8rem; }
+}
+
+/* --- Portada -------------------------------------------------------------
+   La foto es horizontal y Eliset está pegada al borde derecho; el
+   object-position la mantiene dentro del encuadre en pantallas altas. */
+.portada { position: relative; min-height: 88vh; display: flex; align-items: flex-end; }
+.portada-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 82% center; }
+.portada-velo {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgb(16 22 48 / 92%) 0%, rgb(16 22 48 / 62%) 46%, rgb(16 22 48 / 10%) 78%, transparent 100%),
+    linear-gradient(rgb(16 22 48 / 55%) 0%, transparent 34%, rgb(16 22 48 / 40%) 100%);
+}
+.portada-texto {
+  position: relative;
+  width: min(100% - var(--space-6) * 2); max-width: var(--ancho);
+  margin-inline: auto; padding-block: var(--space-9) var(--space-8);
+  color: #f4f6fb;  /* La portada es oscura en ambos temas: la foto manda. */
+}
+.portada-texto .rotulo { color: #f2d9a0; }
+.portada h1 { max-width: 14ch; text-shadow: 0 2px 24px rgb(8 12 30 / 60%); }
+.entrada {
+  margin-top: var(--space-5); max-width: 46ch;
+  font-size: var(--text-lg); color: rgb(244 246 251 / 82%);
+  text-shadow: 0 2px 16px rgb(8 12 30 / 70%);
+}
+
+@media (max-width: 640px) {
+  .portada { min-height: 92vh; }
+  .portada-foto { object-position: 78% center; }
+  .portada-velo {
+    background: linear-gradient(rgb(16 22 48 / 40%) 0%, rgb(16 22 48 / 30%) 30%, rgb(16 22 48 / 88%) 72%, rgb(16 22 48 / 96%) 100%);
+  }
+}
+
+/* --- Botones ------------------------------------------------------------- */
+.acciones { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); }
+.btn {
+  display: inline-block; padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--border-fuerte); border-radius: 999px;
+  color: inherit; text-decoration: none; font: inherit; cursor: pointer;
+  background: transparent; transition: background .15s, border-color .15s;
+}
+.btn:hover { background: var(--surface); border-color: currentColor; }
+.btn-primario {
+  background: var(--acento); border-color: var(--acento); color: #16203d;
+  font-weight: 600;
+}
+.btn-primario:hover { background: var(--acento); filter: brightness(1.08); }
+
+/* --- Franjas ------------------------------------------------------------- */
+.franja { padding-block: var(--space-9); }
+.franja-alterna { background: var(--bg-soft); }
+.franja h2 + .prosa { margin-top: var(--space-4); }
+
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: start; }
+@media (max-width: 860px) { .dos { grid-template-columns: 1fr; gap: var(--space-5); } }
+
+.hitos {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5);
+  margin-top: var(--space-8);
+}
+.hitos li {
+  padding: var(--space-5); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); background: var(--surface);
+}
+.hitos h3 { margin-bottom: var(--space-2); }
+.hitos p { color: var(--text-muted); font-size: var(--text-sm); }
+@media (max-width: 860px) { .hitos { grid-template-columns: 1fr; } }
+
+/* --- Motivos de oración --------------------------------------------------
+   Numerados a mano con un contador para poder dibujar el círculo dorado;
+   el elemento sigue siendo un <ol>, así que un lector de pantalla los
+   sigue anunciando como lista ordenada. */
+.motivos { counter-reset: motivo; margin-top: var(--space-7); columns: 2; column-gap: var(--space-8); }
+.motivos li {
+  break-inside: avoid; position: relative;
+  padding-left: calc(var(--space-6) + var(--space-2));
+  margin-bottom: var(--space-5); color: var(--text-muted);
+}
+.motivos li::before {
+  counter-increment: motivo; content: counter(motivo);
+  position: absolute; left: 0; top: 2px;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--acento); color: var(--acento);
+  font-size: var(--text-sm); font-variant-numeric: tabular-nums;
+}
+@media (max-width: 860px) { .motivos { columns: 1; } }
+
+/* --- Datos para ofrendar ------------------------------------------------- */
+.nota { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--text-muted); max-width: 52ch; }
+.vias { display: grid; gap: var(--space-5); margin-top: var(--space-6); }
+.via {
+  padding: var(--space-6); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--sombra);
+}
+.via h3 {
+  font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--acento);
+}
+.via h3:focus, .via h3:focus-visible { outline: none; }
+.banco { margin-top: var(--space-1); color: var(--text-muted); }
+.campos { display: flex; flex-wrap: wrap; gap: var(--space-6); margin-top: var(--space-5); }
+.cifra {
+  font-size: var(--text-xl); letter-spacing: .03em;
+  font-variant-numeric: tabular-nums; line-height: 1.2;
+}
+.que { font-size: var(--text-sm); color: var(--text-muted); letter-spacing: .12em; text-transform: uppercase; }
+.copiar {
+  margin-top: var(--space-2); font: inherit; font-size: var(--text-sm); cursor: pointer;
+  background: var(--acento-hueco); border: 1px solid var(--border);
+  color: var(--text); border-radius: 999px; padding: var(--space-1) var(--space-3);
+}
+.copiar:hover { border-color: var(--acento); }
+.copiar.hecho { border-color: var(--acento); color: var(--acento); }
+.titular { margin-top: var(--space-5); color: var(--text-muted); font-size: var(--text-sm); }
+
+/* --- Pie ----------------------------------------------------------------- */
+.pie {
+  padding-block: var(--space-7); border-top: 1px solid var(--border);
+  color: var(--text-muted); font-size: var(--text-sm);
+}
+.pie-nombre { font-family: var(--font-serif); font-size: var(--text-lg); color: var(--text); }
+.pie p + p { margin-top: var(--space-2); }
+.pie-contacto { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+
+/* --- Cifras del pueblo kari'ña ------------------------------------------- */
+.cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-top: var(--space-7); }
+.cifras li { border-left: 2px solid var(--acento); padding-left: var(--space-5); }
+.dato {
+  font-family: var(--font-serif); font-size: var(--text-2xl);
+  line-height: 1.05; font-variant-numeric: tabular-nums;
+}
+.glosa { margin-top: var(--space-3); color: var(--text-muted); font-size: var(--text-sm); }
+.fuente { margin-top: var(--space-7); font-size: var(--text-sm); }
+@media (max-width: 860px) { .cifras { grid-template-columns: 1fr; gap: var(--space-5); } }
+
+/* --- Foto del equipo ------------------------------------------------------ */
+.foto-trabajo { margin-top: var(--space-8); }
+.foto-trabajo img {
+  width: 100%; height: auto; border-radius: var(--radius-lg);
+  border: 1px solid var(--border); box-shadow: var(--sombra);
+}
+.foto-trabajo figcaption {
+  margin-top: var(--space-4); color: var(--text-muted);
+  font-size: var(--text-sm); max-width: var(--measure);
+}
+
+/* --- Sellos institucionales ----------------------------------------------
+   Los logos vienen del boletín con fondo blanco opaco y sin canal alpha:
+   sobre el tema oscuro se verían como recortes. En pastilla blanca se leen
+   como sello, y el arquero negro de CLAN no desaparece. */
+.respaldo .rotulo { margin-bottom: var(--space-5); }
+.sellos { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
+.sello {
+  background: #fff; border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  display: flex; align-items: center; box-shadow: var(--sombra);
+}
+.sello img { display: block; height: 56px; width: auto; }
