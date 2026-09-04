@@ -226,14 +226,21 @@ h3 { font-size: var(--text-xl); }
 }
 
 /* --- Sellos institucionales ----------------------------------------------
-   Los logos vienen del boletín con fondo blanco opaco y sin canal alpha:
-   sobre el tema oscuro se verían como recortes. En pastilla blanca se leen
-   como sello, y el arquero negro de CLAN no desaparece. */
+   Los logos se recortaron del boletín y van con fondo transparente, así que
+   se posan sobre el color que haya debajo. De cada uno hay dos versiones:
+   el arquero de CLAN en blanco desaparecería sobre el tema claro, y el
+   anillo de texto del escudo desaparecería sobre el oscuro. Se enseña la
+   que toque; la otra queda oculta y marcada aria-hidden para que un lector
+   de pantalla no lea el nombre dos veces. */
 .respaldo .rotulo { margin-bottom: var(--space-5); }
-.sellos { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
-.sello {
-  background: #fff; border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-6);
-  display: flex; align-items: center; box-shadow: var(--sombra);
+.sellos { display: flex; align-items: center; gap: var(--space-7); flex-wrap: wrap; }
+.sello { display: flex; align-items: center; }
+.sello img { display: block; height: 68px; width: auto; }
+
+.en-claro { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .en-claro { display: block; }
+  :root:not([data-theme="dark"]) .en-oscuro { display: none; }
 }
-.sello img { display: block; height: 56px; width: auto; }
+:root[data-theme="light"] .en-claro { display: block; }
+:root[data-theme="light"] .en-oscuro { display: none; }
